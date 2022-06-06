@@ -59,9 +59,23 @@ const store: StoreOptions<WidgetState> = {
         component: markRaw(defineAsyncComponent(() => import(/* webpackChunkName: "location-point" */ "@mars/widgets/basic/location-point/index.vue"))),
         name: "location-point",
         group: "tools"
-      }
+      },
+      {
+        component: markRaw(defineAsyncComponent(() => import(/* webpackChunkName: "query-poi" */ "@mars/widgets/basic/upload/index.vue"))),
+        name: "upload",
+        autoDisable: true
+      },
+      {
+        component: markRaw(defineAsyncComponent(() => import(/* webpackChunkName: "query-poi" */ "@mars/widgets/basic/download/index.vue"))),
+        name: "download",
+        autoDisable: true
+      }, {
+        component: markRaw(defineAsyncComponent(() => import(/* webpackChunkName: "query-poi" */ "@mars/widgets/basic/drawrange/index.vue"))),
+        name: "drawrange",
+        autoDisable: true
+      },
     ],
-    openAtStart: ["query-poi", "toolbar"]
+    openAtStart: ["query-poi","toolbar"]
   }
 }
 

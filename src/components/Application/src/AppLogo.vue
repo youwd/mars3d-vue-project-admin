@@ -4,9 +4,11 @@
 -->
 <template>
   <div class="anticon" :class="getAppLogoClass" @click="goHome">
-    <img src="../../../assets/images/logo.png" />
+    <img src="../../../assets/images/微信图片_20220601153728.png" />
     <div class="ml-2 truncate md:opacity-100" :class="getTitleClass" v-show="showTitle">
-      {{ title }}
+      <!-- {{ title }} -->
+    <!-- Mars3d admin -->
+    管线工程部工作平台
     </div>
   </div>
 </template>

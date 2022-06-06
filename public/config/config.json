@@ -144,7 +144,7 @@
         "name": "ArcGIS影像",
         "icon": "img/basemaps/esriWorldImagery.png",
         "type": "xyz",
-        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "url": "https://ds.fzkcy.com/arcgis/rest/services/tilemap/fz_vec_map_cgcs2000_prj_4549/MapServer/tile/{z}/{y}/{x}",
         "enablePickFeatures": false
       },
       {

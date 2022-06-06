@@ -1,6 +1,7 @@
 <template>
   <mars-dialog title="图层" width="280" :min-width="250" top="50" bottom="40" right="10">
-    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys" @check="checkedChange">
+    <mars-tree checkable :tree-data="treeData" v-model:expandedKeys="expandedKeys" v-model:checkedKeys="checkedKeys"
+      @check="checkedChange">
       <template #title="node">
         <mars-dropdown :trigger="['contextmenu']">
           <span @dblclick="flyTo(node)">{{ node.title }}</span>
@@ -10,6 +11,14 @@
               <a-menu-item key="2">图层上移一层</a-menu-item>
               <a-menu-item key="3">图层下移一层</a-menu-item>
               <a-menu-item key="4">图层置为底层</a-menu-item>
+              <a-menu-item key="5">查看项目详情</a-menu-item>
+
+              <a-modal class="projectDetail" v-model:visible="visible" title="工程详情" width="40%" :footer="null"
+                @ok="handleOk">
+
+                <formItem  v-for="(item) in formConfig" :sn="item" />
+
+              </a-modal>
             </a-menu>
           </template>
         </mars-dropdown>
@@ -19,12 +28,15 @@
       </template>
     </mars-tree>
   </mars-dialog>
+
 </template>
 <script lang="ts" setup>
 import { onUnmounted, nextTick, reactive, ref } from "vue"
 import useLifecycle from "@mars/common/uses/use-lifecycle"
 import * as mapWork from "./map"
 import { useWidget } from "@mars/common/store/widget"
+import formItem from './components/formItem.vue';
+import { getFormConfig } from'./components/config';
 
 const { activate, disable, currentWidget } = useWidget()
 
@@ -41,6 +53,18 @@ currentWidget.onUpdate(() => {
   initTree()
 })
 
+
+const visible = ref<boolean>(false);
+
+const showModal = () => {
+  visible.value = true;
+};
+
+const handleOk = (e: MouseEvent) => {
+  console.log(e);
+  visible.value = false;
+};
+
 const treeData = ref<any[]>([])
 
 const expandedKeys = ref<string[]>([])
@@ -50,6 +74,15 @@ const checkedKeys = ref<string[]>([])
 const layersObj: any = {}
 
 const opacityObj: any = reactive({})
+
+const titles = {id:"2022政0265",projectName:"xxxuuuu二期",finishTime:"20240206"}
+
+const formConfig  = reactive(getFormConfig())
+for (let index = 0; index < formConfig.length; index++) {
+  const element = formConfig[index];
+  element["initialValue"] = titles[element["name"]]
+}
+console.log(formConfig)
 
 mapWork.eventTarget.on("loadOK", () => {
   initTree()
@@ -177,6 +210,10 @@ const onContextMenuClick = (node: any, type: string) => {
       parent.children[index].index = parent.children.length - 1
       break
     }
+    case "5": {
+      showModal()
+      break
+    }
   }
 
   parent.children = parent.children.sort((a: any, b: any) => a.index - b.index)
@@ -293,5 +330,12 @@ function initLayerTree(layer: any) {
   width: 70px;
   margin-left: 5px;
   vertical-align: middle;
+}
+
+.projectDetail {
+
+  vertical-align: middle;
+
+  .formItem {}
 }
 </style>

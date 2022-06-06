@@ -21,6 +21,7 @@
         </template>
       </mars-dropdown>
       <a-divider v-if="i < data.length - 1" type="vertical" />
+      <upload  :visible="showmodal.visible" @okmodal="onEnlargeText"/>
     </template>
   </mars-pannel>
 </template>
@@ -32,7 +33,8 @@
  * @author 火星吴彦祖 2022-01-10
  */
 import { useWidget } from "@mars/common/store/widget"
-
+import  Upload  from "../upload/index.vue";
+import {  reactive } from "vue"
 const { activate } = useWidget()
 
 const data = [
@@ -42,26 +44,41 @@ const data = [
     name: "工具",
     icon: "tool",
     children: [
-      // { name: "图上量算", icon: "ruler", widget: "measure" },
+      { name: "图上量算", icon: "ruler", widget: "measure" },
       // { name: "空间分析", icon: "analysis", widget: "analysis" },
-      { name: "坐标定位", icon: "local", widget: "location-point" }
+      { name: "坐标定位", icon: "local", widget: "location-point" },
+      { name: "上传文件", icon: "local", widget: "upload" },
+      { name: "下载文件", icon: "local", widget: "download" },
+      { name: "绘制范围", icon: "local", widget: "drawrange" },
       // { name: "地区导航", icon: "navigation", widget: "location-region" },
       // { name: "我的标记", icon: "mark", widget: "addmarker" },
       // { name: "视角书签", icon: "bookmark", widget: "bookmark" },
       // { name: "地图打印", icon: "printer", widget: "print" },
       // { name: "飞行漫游", icon: "take-off", widget: "roamLine-list" },
-      // { name: "图上标绘", icon: "hand-painted-plate", widget: "plot" },
+      //{ name: "图上标绘", icon: "hand-painted-plate", widget: "plot" },
       // { name: "路线导航", icon: "connection", widget: "query-route" },
       // { name: "卷帘对比", icon: "switch-contrast", widget: "map-split" },
       // { name: "分屏对比", icon: "full-screen-play", widget: "map-compare" }
-      // { name: "百度街景", icon: h(City, { theme: "outline", size: "18" }), widget: "street-view" }
+      //{ name: "百度街景", icon: h(City, { theme: "outline", size: "18" }), widget: "street-view" }
     ]
   }
 ]
 
 const showWidget = (widget: string) => {
+  if(widget=="upload"){
+showmodal.visible = true;
+
+  }
+  else{
   activate(widget)
+  }
 }
+
+let showmodal = reactive({visible:false});
+
+ const onEnlargeText = (enlargeAmount)=> {
+    showmodal.visible = false;
+  }
 
 const clickMenu = ({ key }: any) => {
   showWidget(key)

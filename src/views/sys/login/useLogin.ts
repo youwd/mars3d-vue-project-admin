@@ -1,5 +1,6 @@
 import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
 import type { RuleObject } from 'ant-design-vue/lib/form/interface';
+import axios from 'axios';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
 
@@ -25,6 +26,16 @@ export function useLoginState() {
   }
 
   return { setLoginState, getLoginState, handleBackLogin };
+}
+/**
+ * 获取二维码
+ * @description: getScanLoginQrCode
+ */
+export function getScanLoginQrCode() {
+  return axios.get(`https://e.fzkcy.com/gw/upms/web/login/getScanLoginQrCode`);
+}
+export function checkScanLoginQrCode(qid: string) {
+  return axios.get(`https://e.fzkcy.com/gw/upms/web/login/checkScanLoginQrCode?qid=${qid}`);
 }
 
 export function useFormValid<T extends Object = any>(formRef: Ref<any>) {

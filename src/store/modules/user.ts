@@ -95,12 +95,13 @@ export const useUserStore = defineStore({
 
         // save token
         this.setToken(token);
-        return this.afterLoginAction(goHome);
+        return this.afterLoginAction();
       } catch (error) {
         return Promise.reject(error);
       }
     },
-    async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
+    async afterLoginAction(token?: string): Promise<GetUserInfoModel | null> {
+      //this.setToken(token);
       if (!this.getToken) return null;
       // get user info
       const userInfo = await this.getUserInfoAction();
@@ -118,8 +119,9 @@ export const useUserStore = defineStore({
           router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
           permissionStore.setDynamicAddedRoute(true);
         }
-        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        await router.replace(userInfo?.homePath || PageEnum.BASE_HOME);
       }
+      //router.replace(userInfo?.homePath || PageEnum.BASE_HOME);
       return userInfo;
     },
     async getUserInfoAction(): Promise<UserInfo | null> {

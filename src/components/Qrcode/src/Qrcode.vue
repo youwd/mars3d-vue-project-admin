@@ -1,6 +1,7 @@
 <template>
   <div>
-    <component :is="tag" ref="wrapRef" />
+    <!-- <component :is="tag" ref="wrapRef" /> -->
+    <img :src="imgsrc" alt="" />
   </div>
 </template>
 <script lang="ts">
@@ -15,6 +16,10 @@
     props: {
       value: {
         type: [String, Array] as PropType<string | any[]>,
+        default: null,
+      },
+      imgsrc: {
+        type: String,
         default: null,
       },
       // 参数
@@ -35,16 +40,18 @@
       // img 不支持内嵌logo
       tag: {
         type: String as PropType<'canvas' | 'img'>,
-        default: 'canvas',
+        default: 'img',
         validator: (v: string) => ['canvas', 'img'].includes(v),
       },
     },
     emits: { done: (data: QrcodeDoneEventParams) => !!data, error: (error: any) => !!error },
     setup(props, { emit }) {
       const wrapRef = ref<HTMLCanvasElement | HTMLImageElement | null>(null);
+console.log("111111"+props.imgsrc);
       async function createQrcode() {
         try {
           const { tag, value, options = {}, width, logo } = props;
+
           const renderValue = String(value);
           const wrapEl = unref(wrapRef);
 
